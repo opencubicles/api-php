@@ -2,7 +2,7 @@
 
 class WebMerge {
     
-    private static $api_endpoint = 'http://localhost/webmerge/api';//'https://www.webmerge.me/api';
+    private static $api_endpoint = 'https://www.webmerge.me/api';
     private static $merge_endpoint = 'https://www.webmerge.me/merge';
     private static $route_endpoint = 'https://www.webmerge.me/route';
     private $api_key = null;
