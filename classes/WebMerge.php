@@ -122,6 +122,48 @@ class WebMerge {
 		
 		return $this->request($url, $data, 'POST');
 	}
+    
+    
+    /*
+	* $files[] = array(
+    *   'name' => The File Name
+    *   'url' => URL to the file
+    *   'contents' => Base64 encoded file contents (if not using URL)
+    * );
+	* $options = array(
+	*   'test' => 1,
+    *   'bookmark' => 1
+	* );
+	*/
+	public function combinePdfs($files, $options = null){
+		$url = self::$api_endpoint.'/tools/combine_pdf';
+		if(!empty($options)){
+			$url .= '?'.http_build_query($options);	
+		}
+		
+		return $this->request($url, array('files' => $files), 'POST');
+	}
+    
+    
+    /*
+	* $file = array(
+    *   'name' => The File Name
+    *   'url' => URL to the file
+    *   'contents' => Base64 encoded file contents (if not using URL)
+    * );
+	* $options = array(
+	*   'test' => 1,
+    *   'bookmark' => 1
+	* );
+	*/
+	public function convertToPdf($file, $options = null){
+		$url = self::$api_endpoint.'/tools/convert_to_pdf';
+		if(!empty($options)){
+			$url .= '?'.http_build_query($options);	
+		}
+		
+		return $this->request($url, array('file' => $file), 'POST');
+	}
 	
 	
 	/*
@@ -130,12 +172,11 @@ class WebMerge {
     private function request($uri, $params = null, $method = 'GET') {
         
         $ch = curl_init();
-
 		curl_setopt($ch, CURLOPT_URL, $uri);
         
 		if(!empty($params)){
             curl_setopt($ch, CURLOPT_POST, 1);
-			curl_setopt($ch, CURLOPT_POSTFIELDS, http_build_query($params));
+			curl_setopt($ch, CURLOPT_POSTFIELDS, json_encode($params));
 		}
 		
 		curl_setopt($ch, CURLOPT_CUSTOMREQUEST, $method);
@@ -146,6 +187,9 @@ class WebMerge {
         curl_setopt($ch, CURLOPT_FOLLOWLOCATION, false);
         curl_setopt($ch, CURLOPT_MAXREDIRS, 1);
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+        curl_setopt($ch, CURLOPT_HTTPHEADER, array(
+            'Content-Type: application/json'
+        ));
 
         $res = curl_exec($ch);
 		$info = curl_getinfo($ch);
