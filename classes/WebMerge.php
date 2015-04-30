@@ -201,7 +201,7 @@ class WebMerge {
 			$php_res = json_decode($res, true);
 		
 			if(!empty($php_res['error'])){
-				die('Error: '.$php_res['error']);	
+				throw new Exception('Error: '.$php_res['error']);	
 			}
 			
 		}else{
