@@ -35,7 +35,7 @@ class WebMerge {
 	/*
 	*
 	*/
-	public function deleteDocument($id, $data){
+	public function deleteDocument($id){
 		return $this->request(self::$api_endpoint.'/documents/'.$id, null, 'DELETE');
 	}
 	
